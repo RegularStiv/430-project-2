@@ -1,0 +1,1 @@
+(()=>{const e=io(),t=e=>{const t=document.createElement("div");t.innerText=e,document.getElementById("messages").appendChild(t)};window.onload=()=>{(()=>{const t=document.getElementById("editForm"),n=document.getElementById("editBox");t.addEventListener("submit",(t=>{t.preventDefault(),n.value&&(e.emit("chat message",n.value),n.value="")}))})(),e.on("chat message",t)}})();

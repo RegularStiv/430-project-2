@@ -13,7 +13,7 @@ const redis = require('redis');
 const csrf = require('csurf');
 
 const router = require('./router.js');
-
+const socketSetup = require('./io.js');
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/Salve';
@@ -64,8 +64,9 @@ app.use((err, req, res, next) => {
   return false;
 });
 router(app);
+const server = socketSetup(app);
 
-app.listen(port, (err) => {
+server.listen(port, (err) => {
   if (err) { throw err; }
   console.log(`Listening on port ${port}`);
 });
