@@ -17,10 +17,6 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  friends: {
-    type: Object,
-    default: {},
-  },
   createdDate: {
     type: Date,
     default: Date.now,
