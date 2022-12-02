@@ -40,6 +40,7 @@ const socketSetup = (app) => {
           person2: waiting
         };
         waiting = undefined;
+        socket.emit('chat message', 'Waiting For Someone To Join')
     }
     console.log('a user connected');
 
@@ -57,12 +58,12 @@ const socketSetup = (app) => {
       if(socket === lobbies[obj.id].person1){
         lobbies[obj.id].person1 = undefined;
         socket.emit('matchmaking', 'you have disconnected');
-        lobbies[obj.id].person2.emit('matchmaking', 'the other user has disconnected');
+        lobbies[obj.id].person2.emit('chat message', 'the other user has disconnected');
       }
       else{
         lobbies[obj.id].person2 = undefined;
         socket.emit('matchmaking', 'you have disconnected');
-        lobbies[obj.id].person1.emit('matchmaking', 'the other user has disconnected');
+        lobbies[obj.id].person1.emit('chat nessage', 'the other user has disconnected');
       }
         
     }
