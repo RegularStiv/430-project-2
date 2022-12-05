@@ -4,6 +4,7 @@ module.exports = {
     entry: {
         app: './client/app.jsx',
         login: './client/login.jsx',
+        notFound: './client/notFound.jsx'
     },
     module: {
         rules: [
@@ -16,7 +17,7 @@ module.exports = {
             }
         ]
     },
-    mode: 'production',
+    mode: 'development',
     watchOptions: {
         aggregateTimeout: 200,
     },

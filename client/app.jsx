@@ -1,12 +1,13 @@
 const socket = io();
 let id = undefined;
 const helper = require("./helper.js");
-const handleEditBox = () => {
-    const editForm = document.getElementById('editForm');
+let response = undefined;
+let data = undefined;
+const handleEditBox = (e) => {
+    e.preventDefault();
     const editBox = document.getElementById('editBox');
     const lang = document.querySelector('#langs');
-    editForm.addEventListener('submit', (e) =>{
-        e.preventDefault();
+        
 
         if(editBox.value){
             const data = {
@@ -17,12 +18,9 @@ const handleEditBox = () => {
             socket.emit('chat message', data);
             editBox.value = '';
         }
-    })
 };
 const changePass = async (e) =>{
     e.preventDefault();
-    const response = await fetch('/getToken');
-    const data = await response.json();
     const pass = document.querySelector('#pass').value;
     const pass2 = document.querySelector('#pass2').value;
     const _csrf = data.csrfToken;
@@ -34,19 +32,32 @@ const displayMessage = (msg) =>{
     messageDiv.innerText = msg;
     document.getElementById('messages').appendChild(messageDiv);
 }
-const setupRoom = (idImport) =>{
-    //addevent listener
-    console.log(id);
+const setupRoom = async (idImport) =>{
+    //console.log(id);
     id = idImport;
     socket.on(id, displayMessage);
+
+    console.log('setuproom');
+    console.log(data);
+    ReactDOM.render(<DisconnectWindow csrf ={data.csrfToken}/>,
+        document.getElementById('buttons'));
 }
-const disconnectFromLobby = () =>{
+const disconnectFromLobby = (e) =>{
+    e.preventDefault();
     socket.emit('matchmaking', {
-        command: 'disconnect',
+        command: 'remove',
         id: id
     });
     document.getElementById('messages').innerHTML = '';
-    
+
+    console.log('disconnect');
+    console.log(data);
+    ReactDOM.render(<ReconnectWindow csrf ={data.csrfToken} />,
+        document.getElementById('buttons'));
+}
+const connectToNewLobby = (e) => {
+    e.preventDefault();
+    socket.emit('reconnect');
 }
 
 const ChangePassWindow = (props) =>{
@@ -58,6 +69,7 @@ const ChangePassWindow = (props) =>{
         method="POST"
         className="changePassForm"
         >
+            
             <label htmlFor='pass'>New Password: </label>
             <input id="pass" type="text" name="pass" placeholder='password' />
             <label htmlFor='pass2'>New Password: </label>
@@ -67,6 +79,11 @@ const ChangePassWindow = (props) =>{
         </form>
     );
 };
+const AdWindow = (props) =>{
+    return (
+        <img src="" ></img>
+    );
+}
 const ChatWindow = (props) =>{
     return (
         <form id="chatForm"
@@ -75,6 +92,7 @@ const ChatWindow = (props) =>{
         method="POST"
         className="chatForm"
         >
+            <input id="_csrf" type="hidden" name="_csrf" value={props.csrf} />
             <label htmlFor='username'>Message: </label>
             <input id="editBox" type="text" />
             <input type="submit" />
@@ -96,7 +114,8 @@ const DisconnectWindow = (props) => {
         method="POST"
         className="disconnectClass"
         >
-            <button id="disconnect">Disconnect</button>
+            <input id="_csrf" type="hidden" name="_csrf" value={props.csrf} />
+            <input className='formSubmit' type="submit" value="Disconnect" />
         </form>
     );
 }
@@ -104,28 +123,36 @@ const ReconnectWindow = (props) => {
     return (
         <form id="reconnectForm"
         name="reconnectForm"
-        onSubmit={disconnectFromLobby}
+        onSubmit={connectToNewLobby}
         method="POST"
         className="reconnectClass"
         >
-            <button id="newLobby" >Find New Conversation</button>
+            <input id="_csrf" type="hidden" name="_csrf" value={props.csrf} />
+            <input className='formSubmit' type="submit" value="Find New Conversation" />
         </form>
     );
 }
-const init = () => {
-    handleEditBox();
+const init = async () => {
+    response = await fetch('/getToken');
+    data = await response.json();
+    console.log('init');
+    console.log(data);
+
     socket.on('chat message', displayMessage);
     socket.on('matchmaking', setupRoom);
-    document.querySelector("#newLobby").onclick = disconnectFromLobby;
-    const signupButton = document.getElementById('signupButton');
-    
-    signupButton.addEventListener('click', (e) => {
+    const changePass = document.getElementById('changePass');
+
+    changePass.addEventListener('click', (e) => {
         e.preventDefault();
-        ReactDOM.render(<SignupWindow csrf={data.csrfToken} />,
+        ReactDOM.render(<ChangePassWindow csrf={data.csrfToken} />,
             document.getElementById('content'));
-            document.querySelector("#changePass").onclick = changePass;
         return false;
     });
+
+    ReactDOM.render(<ChatWindow csrf ={data.csrfToken} />,
+        document.getElementById('content'));
+    ReactDOM.render(<DisconnectWindow csrf ={data.csrfToken} />,
+        document.getElementById('buttons'));
 };
 
 window.onload = init;

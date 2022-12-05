@@ -4,23 +4,23 @@
   <title>Salve</title>
   <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <link rel="stylesheet" type="text/css" href="/assets/normalize.css"/>
+  <link rel="stylesheet" type="text/css" href="/assets/skeleton.css"/>
   <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
 </head>
 <body>
   <nav><a href="/login"><img id="logo" src="" alt="logo"/></a>
     <div class="navlink"><a href="/logout">Log out</a></div>
-    <div class="navlink"><a href="/logout">Change Password</a></div>
+    <div class="navlink"><a id="changePass" href="/changePass">Change Password</a></div>
   </nav>
 
-  <section id="conversations">
-    <p>rendering page lmao</p>
+  <section id="buttons">
+
   </section>
 
-  <section id="current">
-    
-  </section>
+  <section id="content">
 
-  <p id="content"></p>
+  </section>
   <div id="messages"></div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/assets/appBundle.js"></script>
