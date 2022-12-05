@@ -1,4 +1,5 @@
 const models = require('../models');
+
 const { Account } = models;
 
 const loginPage = (req, res) => { res.render('login', { csrfToken: req.csrfToken() }); };
@@ -52,11 +53,11 @@ const signup = async (req, res) => {
     return res.status(400).json({ error: 'An error occured' });
   }
 };
-const changePass = async (req, res) =>{
+const changePass = async (req, res) => {
   const pass = `${req.body.pass}`;
   const pass2 = `${req.body.pass2}`;
 
-  if(!pass || !pass2){
+  if (!pass || !pass2) {
     return res.status(400).json({ error: 'All fields are required!' });
   }
   if (pass !== pass2) {
@@ -64,12 +65,12 @@ const changePass = async (req, res) =>{
   }
   try {
     const hash = await Account.generateHash(pass);
-    const doc = await Account.findByIdAndUpdate(req.session.account._id, {password: hash}).exec();
-    //document.querySelector("#content").textContent = "Password Changed!";
+    await Account.findByIdAndUpdate(req.session.account._id, { password: hash }).exec();
+    return res.status(201).json({ message: 'updated password' });
   } catch (err) {
     return res.status(400).json({ error: 'An error occured' });
   }
-}
+};
 const getToken = (req, res) => res.json({ csrfToken: req.csrfToken() });
 
 module.exports = {
@@ -78,5 +79,5 @@ module.exports = {
   login,
   logout,
   signup,
-  changePass
+  changePass,
 };

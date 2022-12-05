@@ -57,7 +57,10 @@ const disconnectFromLobby = (e) =>{
 }
 const connectToNewLobby = (e) => {
     e.preventDefault();
-    socket.emit('reconnect');
+    socket.emit('matchmaking', {
+        command: 'reconnect',
+        id: id
+    });
 }
 
 const ChangePassWindow = (props) =>{
