@@ -152,7 +152,11 @@ const init = async () => {
     console.log(data);
 
     socket.on('chat message', displayMessage);
-    socket.on('matchmaking', setupRoom);
+    socket.on('matchmaking', (msg) => {
+        if(msg.command === 'reconnect'){
+            setupRoom(msg);
+        }
+        });
     const changePass = document.getElementById('changePass');
 
     changePass.addEventListener('click', (e) => {
