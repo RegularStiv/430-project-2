@@ -24,10 +24,17 @@ const changePass = async (e) =>{
     const pass = document.querySelector('#pass').value;
     const pass2 = document.querySelector('#pass2').value;
     const _csrf = data.csrfToken;
-    helper.sendPost('/changePass',{pass, pass2, _csrf});
-    document.querySelector("#messages").textContent = "Password Changed";
-    ReactDOM.render(<ChatWindow csrf ={data.csrfToken} />,
+    if(!pass || !pass2){
+        document.querySelector("#messages").textContent = "Passwords need to match and be longer than 1 character";
+    } else if(pass !== pass2){
+        document.querySelector("#messages").textContent = "Passwords need to match and be longer than 1 character";
+    } else{
+        helper.sendPost('/changePass',{pass, pass2, _csrf});
+        document.querySelector("#messages").textContent = "Password Changed";
+        ReactDOM.render(<ChatWindow csrf ={data.csrfToken} />,
         document.getElementById('content'));
+    }
+    
 
 }
 const displayMessage = (msg) =>{
