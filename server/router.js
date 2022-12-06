@@ -1,7 +1,9 @@
-// const { contentSecurityPolicy } = require('helmet');
+//gets the middle ware and controllers
 const controllers = require('./controllers');
 const mid = require('./middleware');
 
+
+//routs the user to the right page
 const router = (app) => {
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
 

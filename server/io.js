@@ -9,7 +9,6 @@ const lobbies = {};
 let waiting;
 let io;
 const handleChatMessage = async (data, socket) => {
-  console.log(data);
   if (data.id) {
     let translatedMessage;
     await translatte(data.msg, { to: data.lang }).then((res) => {
@@ -31,32 +30,10 @@ const socketSetup = (app, sessionMiddleWare) => {
   io.use(wrap(sessionMiddleWare));
 
   io.on('connection', (socket) => {
-    // if there is a lobby to join join in
-    if (waiting === undefined) {
-      waiting = socket;
-      console.log(lobbies);
-      socket.emit('chat message', 'SERVER: You have joined a lobby');
-    } else { // create lobby if there is no lobby
-      // create number
-      const id = uuidv4();
-      socket.emit('matchmaking', id);
-      waiting.emit('matchmaking', id);
-
-      lobbies[id] = {
-        person1: socket,
-        person2: waiting,
-      };
-      waiting = undefined;
-      socket.emit('chat message', 'SERVER: Waiting For Someone To Join');
-    }
-    console.log('a user connected');
-
     socket.on('disconnect', () => {
       if (socket === waiting) {
         waiting = undefined;
       }
-      console.log('a user disconnected');
-      socket.emit('chat message');
     });
 
     socket.on('chat message', (data) => {
@@ -70,24 +47,30 @@ const socketSetup = (app, sessionMiddleWare) => {
         }
         if (socket === lobbies[obj.id].person1) {
           lobbies[obj.id].person1 = undefined;
+          socket.emit('matchmaking', {
+            command: 'remove',
+            id: undefined
+          });
           socket.emit('chat message', 'SERVER: you have disconnected');
           lobbies[obj.id].person2.emit('chat message', 'SERVER: the other user has disconnected');
           delete lobbies[obj.id];
-          console.log(lobbies);
         } else {
           // socket.id = undefined;
           lobbies[obj.id].person2 = undefined;
-          socket.emit('matchmaking', undefined);
+          socket.emit('matchmaking', {
+            command: 'remove',
+            id: undefined
+          });
           socket.emit('chat message', 'SERVER: you have disconnected');
           lobbies[obj.id].person1.emit('chat message', 'SERVER: the other user has disconnected');
           delete lobbies[obj.id];
-          // id = nothing
-          console.log(lobbies);
+        }
+        if (socket === waiting) {
+          waiting = undefined;
         }
       } else if (obj.command === 'reconnect') {
         if (waiting === undefined) {
           waiting = socket;
-          console.log(lobbies);
           socket.emit('chat message', 'SERVER: Waiting to find another person');
         } else { // create lobby if there is no lobby
         // create number
@@ -116,7 +99,6 @@ const socketSetup = (app, sessionMiddleWare) => {
       }
     });
   });
-  console.log(lobbies);
   return server;
 };
 module.exports = socketSetup;

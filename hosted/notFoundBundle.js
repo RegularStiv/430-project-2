@@ -15,7 +15,7 @@
   \*****************************/
 /***/ (() => {
 
-eval("const goBack = () => {\n  window.location.replace('/');\n};\nconst ReturnButton = props => {\n  return /*#__PURE__*/React.createElement(\"button\", {\n    id: \"returnButton\"\n  }, \"Go Back\");\n};\nconst init = async () => {\n  ReactDOM.render( /*#__PURE__*/React.createElement(ReturnButton, null), document.getElementById('buttons'));\n  document.getElementById('returnButton').onclick = goBack;\n};\nwindow.onload = init;\n\n//# sourceURL=webpack://logins/./client/notFound.jsx?");
+eval("//redirect the user ro the default place\nconst goBack = () => {\n  window.location.replace('/');\n};\n\n//render the go back button\nconst ReturnButton = props => {\n  return /*#__PURE__*/React.createElement(\"button\", {\n    id: \"returnButton\"\n  }, \"Go Back\");\n};\n\n//rencer everything onto the screen\nconst init = async () => {\n  ReactDOM.render( /*#__PURE__*/React.createElement(ReturnButton, null), document.getElementById('buttons'));\n  document.getElementById('returnButton').onclick = goBack;\n};\nwindow.onload = init;\n\n//# sourceURL=webpack://logins/./client/notFound.jsx?");
 
 /***/ })
 

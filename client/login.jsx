@@ -1,5 +1,6 @@
 const helper = require('./helper.js');
 
+//log in if you have the right username and password
 const handleLogin = (e) => {
     e.preventDefault();
 
@@ -17,6 +18,7 @@ const handleLogin = (e) => {
     return false;
 }
 
+// create an account using username and password
 const handleSignup = (e) => {
     e.preventDefault();
 
@@ -38,7 +40,7 @@ const handleSignup = (e) => {
 
     return false;
 }
-
+//render the login window
 const LoginWindow = (props) =>{
     return (
         <form id="loginForm"
@@ -57,11 +59,13 @@ const LoginWindow = (props) =>{
         </form>
     );
 };
+//render the logo
 const LogoWindow = (props) =>{
     return(
         <a href="/login"><img id="mainLogo" src="/assets/img/logo.png" alt="logo"/></a>
     );
 };
+//render the signup window
 const SignupWindow = (props) =>{
     return (
         <form id="signupForm"
@@ -83,6 +87,7 @@ const SignupWindow = (props) =>{
     );
 };
 
+//add all event listeners and set up defaults for the page
 const init = async () => {
     const response = await fetch('/getToken');
     const data = await response.json();

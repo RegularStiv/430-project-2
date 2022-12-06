@@ -1,7 +1,11 @@
+
+//handle an error if one occurs
 const handleError = (message) => {
     document.getElementById('errorMessage').textContent = message;
 };
 
+
+//send stuff to the server
 const sendPost = async (url, data, handler) => {
     const response = await fetch(url, {
         method: 'POST',

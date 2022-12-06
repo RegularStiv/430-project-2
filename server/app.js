@@ -1,3 +1,4 @@
+//sets up what is needed
 const path = require('path');
 const express = require('express');
 const compression = require('compression');
@@ -15,10 +16,12 @@ const csrf = require('csurf');
 const router = require('./router.js');
 const socketSetup = require('./io.js');
 
+//sets up the server
 const setupServer = async () => {
   const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
   const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/Salve';
+  //tries to connect to the database
   mongoose.connect(dbURI, (err) => {
     if (err) {
       console.log('Could not connect to the database');
