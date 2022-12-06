@@ -9,7 +9,8 @@
   <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
 </head>
 <body>
-  <nav><a href="/login"><img id="logo" src="" alt="logo"/></a>
+  <nav>
+    <div class="navlink"><a href="/login"><img id="logo" src="/assets/img/logo.png" alt="logo"/></a></div>
     <div class="navlink"><a href="/logout">Log out</a></div>
     <div class="navlink"><a id="changePass" href="/changePass">Change Password</a></div>
   </nav>
@@ -17,11 +18,13 @@
   <section id="buttons">
 
   </section>
-
+  <div id="messages">
+    
+  </div>
   <section id="content">
 
   </section>
-  <div id="messages"></div>
+  
   <script src="/socket.io/socket.io.js"></script>
   <script src="/assets/appBundle.js"></script>
 </body>

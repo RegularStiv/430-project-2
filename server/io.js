@@ -47,7 +47,7 @@ const socketSetup = (app) => {
       socket.emit('chat message', 'Waiting For Someone To Join');
     }
     console.log('a user connected');
-    
+
     socket.on('disconnect', () => {
       if (socket === waiting) {
         waiting = undefined;
@@ -79,29 +79,33 @@ const socketSetup = (app) => {
           // id = nothing
           console.log(lobbies);
         }
-      }  else if(obj.command === 'reconnect'){
-      if (waiting === undefined) {
-        waiting = socket;
-        console.log(lobbies);
-        socket.emit('chat message', 'SERVER: Waiting to find another person');
-      } else { // create lobby if there is no lobby
+      } else if (obj.command === 'reconnect') {
+        if (waiting === undefined) {
+          waiting = socket;
+          console.log(lobbies);
+          socket.emit('chat message', 'SERVER: Waiting to find another person');
+        } else { // create lobby if there is no lobby
         // create number
-        const id = uuidv4();
-        socket.emit('matchmaking', id);
-        waiting.emit('matchmaking', id);
-
-        lobbies[id] = {
-          person1: socket,
-          person2: waiting,
-        };
-        waiting = undefined;
-        lobbies[id].person1.emit('chat message', 'SERVER: You have been connected to another person!');
-        lobbies[id].person2.emit('chat message', 'SERVER: You have been connected to another person!');
+        //prevents being connected to self
+          if(socket === waiting){
+            return;
+          }
+          const id = uuidv4();
+          socket.emit('matchmaking', id);
+          waiting.emit('matchmaking', id);
+          
+          lobbies[id] = {
+            person1: socket,
+            person2: waiting,
+          };
+          waiting = undefined;
+          lobbies[id].person1.emit('chat message', 'SERVER: You have been connected to another person!');
+          lobbies[id].person2.emit('chat message', 'SERVER: You have been connected to another person!');
+        }
       }
-    }
     });
   });
-    console.log(lobbies);
+  console.log(lobbies);
   return server;
 };
 module.exports = socketSetup;

@@ -57,6 +57,11 @@ const LoginWindow = (props) =>{
         </form>
     );
 };
+const LogoWindow = (props) =>{
+    return(
+        <a href="/login"><img id="mainLogo" src="/assets/img/logo.png" alt="logo"/></a>
+    );
+};
 const SignupWindow = (props) =>{
     return (
         <form id="signupForm"
@@ -84,7 +89,8 @@ const init = async () => {
 
     const loginButton = document.getElementById('loginButton');
     const signupButton = document.getElementById('signupButton');
-
+    ReactDOM.render(<LogoWindow csrf={data.csrfToken} />,
+            document.getElementById('logoLocation'));
     loginButton.addEventListener('click', (e) => {
         e.preventDefault();
         ReactDOM.render(<LoginWindow csrf={data.csrfToken} />,
@@ -99,6 +105,7 @@ const init = async () => {
     });
     ReactDOM.render(<LoginWindow csrf={data.csrfToken} />,
             document.getElementById('content'));
+    
 };
 
 window.onload = init;

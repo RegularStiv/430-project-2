@@ -25,7 +25,10 @@ const changePass = async (e) =>{
     const pass2 = document.querySelector('#pass2').value;
     const _csrf = data.csrfToken;
     helper.sendPost('/changePass',{pass, pass2, _csrf});
-    document.querySelector("#content").textContent = "Password Changed";
+    document.querySelector("#messages").textContent = "Password Changed";
+    ReactDOM.render(<ChatWindow csrf ={data.csrfToken} />,
+        document.getElementById('content'));
+
 }
 const displayMessage = (msg) =>{
     const messageDiv = document.createElement('div');

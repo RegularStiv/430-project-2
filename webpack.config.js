@@ -17,7 +17,7 @@ module.exports = {
             }
         ]
     },
-    mode: 'development',
+    mode: 'production',
     watchOptions: {
         aggregateTimeout: 200,
     },
