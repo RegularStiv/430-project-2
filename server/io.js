@@ -22,7 +22,7 @@ const handleChatMessage = async (data, socket) => {
   }
 };
 
-const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
+const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
 
 const socketSetup = (app, sessionMiddleWare) => {
   const server = http.createServer(app);
@@ -49,7 +49,7 @@ const socketSetup = (app, sessionMiddleWare) => {
           lobbies[obj.id].person1 = undefined;
           socket.emit('matchmaking', {
             command: 'remove',
-            id: undefined
+            id: undefined,
           });
           socket.emit('chat message', 'SERVER: you have disconnected');
           lobbies[obj.id].person2.emit('chat message', 'SERVER: the other user has disconnected');
@@ -59,7 +59,7 @@ const socketSetup = (app, sessionMiddleWare) => {
           lobbies[obj.id].person2 = undefined;
           socket.emit('matchmaking', {
             command: 'remove',
-            id: undefined
+            id: undefined,
           });
           socket.emit('chat message', 'SERVER: you have disconnected');
           lobbies[obj.id].person1.emit('chat message', 'SERVER: the other user has disconnected');
@@ -74,20 +74,20 @@ const socketSetup = (app, sessionMiddleWare) => {
           socket.emit('chat message', 'SERVER: Waiting to find another person');
         } else { // create lobby if there is no lobby
         // create number
-        //prevents being connected to self
-          if(socket === waiting){
+        // prevents being connected to self
+          if (socket === waiting) {
             return;
           }
           const id = uuidv4();
           socket.emit('matchmaking', {
             command: 'reconnect',
-            id
+            id,
           });
           waiting.emit('matchmaking', {
             command: 'reconnect',
-            id
+            id,
           });
-          
+
           lobbies[id] = {
             person1: socket,
             person2: waiting,

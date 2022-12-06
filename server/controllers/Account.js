@@ -4,13 +4,13 @@ const { Account } = models;
 
 const loginPage = (req, res) => { res.render('login', { csrfToken: req.csrfToken() }); };
 
-//get rid og the session if you logout
+// get rid og the session if you logout
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
 };
 
-//authenticate the login info and redirect if it is correct
+// authenticate the login info and redirect if it is correct
 const login = (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
@@ -27,7 +27,8 @@ const login = (req, res) => {
   });
 };
 
-// make sure the info for the new user works, is able to be used then encrypts the password onto the database
+// make sure the info for the new user works, 
+//is able to be used then encrypts the password onto the database
 const signup = async (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
@@ -55,7 +56,7 @@ const signup = async (req, res) => {
   }
 };
 
-//changes the password after checing it works after encrypting it
+// changes the password after checing it works after encrypting it
 const changePass = async (req, res) => {
   const pass = `${req.body.pass}`;
   const pass2 = `${req.body.pass2}`;
@@ -74,7 +75,7 @@ const changePass = async (req, res) => {
     return res.status(400).json({ error: 'An error occured' });
   }
 };
-//get a csrf token
+// get a csrf token
 const getToken = (req, res) => res.json({ csrfToken: req.csrfToken() });
 
 module.exports = {

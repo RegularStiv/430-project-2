@@ -1,4 +1,4 @@
-//if not logged in it redirects you to the sign in page if you need to be signed in
+// if not logged in it redirects you to the sign in page if you need to be signed in
 const requiresLogin = (req, res, next) => {
   if (!req.session.account) {
     return res.redirect('/');
@@ -6,7 +6,7 @@ const requiresLogin = (req, res, next) => {
   return next();
 };
 
-//if not logged out keeps you on the app page 
+// if not logged out keeps you on the app page
 const requiresLogout = (req, res, next) => {
   if (req.session.account) {
     return res.redirect('/app');
@@ -14,7 +14,7 @@ const requiresLogout = (req, res, next) => {
   return next();
 };
 
-//requires https to be rendered
+// requires https to be rendered
 const requiresSecure = (req, res, next) => {
   if (req.headers['x-forwarded-proto'] !== 'https') {
     return res.redirect(`https://${req.hostname}${req.url}`);

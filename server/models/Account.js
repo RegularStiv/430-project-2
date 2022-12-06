@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const saltRounds = 10;
 
 let AccountModel = {};
-//account layout and required items for each account
+// account layout and required items for each account
 const AccountSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -28,10 +28,10 @@ AccountSchema.statics.toAPI = (doc) => ({
   _id: doc._id,
 });
 
-//encrypts passwords
+// encrypts passwords
 AccountSchema.statics.generateHash = (password) => bcrypt.hash(password, saltRounds);
 
-//authenticates the account when trying to login
+// authenticates the account when trying to login
 AccountSchema.statics.authenticate = async (username, password, callback) => {
   try {
     const doc = await AccountModel.findOne({ username }).exec();
