@@ -28,7 +28,7 @@ const setupServer = async () => {
       throw err;
     }
   });
-  const redisURL = process.env.REDISCLOUD_URL || 'redis://default:Be1o3Ct0gM1zhg2EhjXhkcqpespBTa4Q@redis-15353.c99.us-east-1-4.ec2.cloud.redislabs.com:15353';
+  const redisURL = process.env.REDISCLOUD_URL || 'redis://default:FEeQVLSYtw83f5xrX28BPN9qzewUs453@redis-19915.c15.us-east-1-4.ec2.cloud.redislabs.com:19915';
 
   const redisClient = redis.createClient({
     legacyMode: true,

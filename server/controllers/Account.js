@@ -27,8 +27,8 @@ const login = (req, res) => {
   });
 };
 
-// make sure the info for the new user works, 
-//is able to be used then encrypts the password onto the database
+// make sure the info for the new user works,
+// is able to be used then encrypts the password onto the database
 const signup = async (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
