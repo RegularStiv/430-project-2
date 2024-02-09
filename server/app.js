@@ -20,7 +20,7 @@ const socketSetup = require('./io.js');
 const setupServer = async () => {
   const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-  const dbURI = process.env.MONGODB_URI;
+  const dbURI = process.env.MONGODB_URI || "mongodb+srv://herokuApps:j2xtYbNhJmCeu6vY@cluster0.lvxv7tp.mongodb.net/?retryWrites=true&w=majority";
   // tries to connect to the database
   mongoose.connect(dbURI, (err) => {
     if (err) {
@@ -28,7 +28,7 @@ const setupServer = async () => {
       throw err;
     }
   });
-  const redisURL = process.env.REDISCLOUD_URL;
+  const redisURL = process.env.REDISCLOUD_URL || "redis://default:mfUA4EAzejFGIui0YEWOOIfw9FasgUDN@redis-11289.c321.us-east-1-2.ec2.cloud.redislabs.com:11289";
 
   const redisClient = redis.createClient({
     legacyMode: true,
