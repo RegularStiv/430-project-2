@@ -2,8 +2,8 @@
   "name": "logins",
   "version": "1.0.0",
   "engines": {
-    "node": "12.16.0",
-    "npm": "6.13.7"
+    "node": "21.6.1",
+    "npm": "10.2.4"
   },
   "description": "A Simple Login Example using Node.js, Mongo and Redis",
   "main": "./server/app.js",
